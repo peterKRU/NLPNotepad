@@ -38,6 +38,9 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.Color;
 import javax.swing.border.SoftBevelBorder;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JCheckBox;
+import javax.swing.SwingConstants;
 
 public class SystemView {
 
@@ -94,10 +97,11 @@ public class SystemView {
 	
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 800, 540);
+		//!Add feature: Change window size; small frame: frame.setBounds(100, 100, 800, 540);
+		frame.setBounds(100, 100, 1400, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 500, 500, 0};
+		gridBagLayout.columnWidths = new int[] {100, 500, 500, 10};
 		gridBagLayout.rowHeights = new int[]{30, 205, 0, 110, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
@@ -115,46 +119,48 @@ public class SystemView {
 		JLabel labelIcons = new JLabel("Icons (WiP)");
 		toolBarTop.add(labelIcons);
 		
-		JPanel panel = new JPanel();
-		panel.setBorder(null);
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.gridheight = 7;
-		gbc_panel.insets = new Insets(0, 5, 0, 5);
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 0;
-		gbc_panel.gridy = 0;
-		frame.getContentPane().add(panel, gbc_panel);
-		panel.setLayout(new BorderLayout(0, 0));
+		JPanel fileExplorerPanel = new JPanel();
+		fileExplorerPanel.setBorder(null);
+		GridBagConstraints gbc_fileExplorerPanel = new GridBagConstraints();
+		gbc_fileExplorerPanel.weightx = 0.9;
+		gbc_fileExplorerPanel.anchor = GridBagConstraints.WEST;
+		gbc_fileExplorerPanel.gridheight = 7;
+		gbc_fileExplorerPanel.insets = new Insets(0, 5, 0, 5);
+		gbc_fileExplorerPanel.fill = GridBagConstraints.BOTH;
+		gbc_fileExplorerPanel.gridx = 0;
+		gbc_fileExplorerPanel.gridy = 0;
+		frame.getContentPane().add(fileExplorerPanel, gbc_fileExplorerPanel);
+		fileExplorerPanel.setLayout(new BorderLayout(0, 0));
 		
-		panel.setVisible(true);
+		fileExplorerPanel.setVisible(true);
 		
-		JTree tree = new JTree();
-		tree.setModel(new DefaultTreeModel(
-			new DefaultMutableTreeNode("JTree") {
+		JTree fileExplorerTree = new JTree();
+		fileExplorerTree.setModel(new DefaultTreeModel(
+			new DefaultMutableTreeNode("Folder") {
 				{
 					DefaultMutableTreeNode node_1;
-					node_1 = new DefaultMutableTreeNode("colors");
+					node_1 = new DefaultMutableTreeNode("Subfolder");
 						node_1.add(new DefaultMutableTreeNode("OLOLO"));
-						node_1.add(new DefaultMutableTreeNode("violet"));
-						node_1.add(new DefaultMutableTreeNode("red"));
-						node_1.add(new DefaultMutableTreeNode("yellow"));
+						node_1.add(new DefaultMutableTreeNode("ALALA"));
+						node_1.add(new DefaultMutableTreeNode("ELELE"));
+						node_1.add(new DefaultMutableTreeNode("LOLOLO"));
 					add(node_1);
-					node_1 = new DefaultMutableTreeNode("sports");
-						node_1.add(new DefaultMutableTreeNode("basketball"));
-						node_1.add(new DefaultMutableTreeNode("soccer"));
-						node_1.add(new DefaultMutableTreeNode("football"));
-						node_1.add(new DefaultMutableTreeNode("hockey"));
+					node_1 = new DefaultMutableTreeNode("Subfolder 2");
+						node_1.add(new DefaultMutableTreeNode("OLOLO"));
+						node_1.add(new DefaultMutableTreeNode("OLO"));
+						node_1.add(new DefaultMutableTreeNode("OL"));
+						node_1.add(new DefaultMutableTreeNode("OLOLO"));
 					add(node_1);
-					node_1 = new DefaultMutableTreeNode("food");
-						node_1.add(new DefaultMutableTreeNode("hot dogs"));
-						node_1.add(new DefaultMutableTreeNode("pizza"));
-						node_1.add(new DefaultMutableTreeNode("ravioli"));
-						node_1.add(new DefaultMutableTreeNode("bananas"));
+					node_1 = new DefaultMutableTreeNode("Subfolder 3");
+						node_1.add(new DefaultMutableTreeNode("ELELE"));
+						node_1.add(new DefaultMutableTreeNode("ELE"));
+						node_1.add(new DefaultMutableTreeNode("ELELE"));
+						node_1.add(new DefaultMutableTreeNode("ALALA"));
 					add(node_1);
 				}
 			}
 		));
-		panel.add(tree, BorderLayout.CENTER);
+		fileExplorerPanel.add(fileExplorerTree, BorderLayout.CENTER);
 		
 		JTabbedPane inputAreaMain = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_inputAreaMain = new GridBagConstraints();
@@ -223,15 +229,36 @@ public class SystemView {
 		
 		JToolBar toolBarMid = new JToolBar();
 		GridBagConstraints gbc_toolBarMid = new GridBagConstraints();
+		gbc_toolBarMid.fill = GridBagConstraints.HORIZONTAL;
 		gbc_toolBarMid.anchor = GridBagConstraints.WEST;
-		gbc_toolBarMid.gridwidth = 2;
+		gbc_toolBarMid.gridwidth = 4;
 		gbc_toolBarMid.insets = new Insets(0, 0, 5, 0);
 		gbc_toolBarMid.gridx = 1;
 		gbc_toolBarMid.gridy = 2;
 		frame.getContentPane().add(toolBarMid, gbc_toolBarMid);
 		
-		JLabel labelLog = new JLabel("Log");
-		toolBarMid.add(labelLog);
+		JCheckBox toggleFileExplorerPanel = new JCheckBox("Show/Hide File Explorer");
+		toggleFileExplorerPanel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				int[] compressedColumnWidths = new int[] {0, 500, 500, 10};
+				int[] expandedColumnWidths = new int[] {100, 500, 500, 10};
+				
+				if(toggleFileExplorerPanel.isSelected()) {
+					fileExplorerPanel.setVisible(true);
+					gridBagLayout.columnWidths = expandedColumnWidths;
+				}
+				else {
+					fileExplorerPanel.setVisible(false);
+					//gridBagLayout.columnWidths(compressedColumnWidths);
+					gridBagLayout.columnWidths = compressedColumnWidths;
+				}
+			
+			}
+		});
+		toggleFileExplorerPanel.setHorizontalAlignment(SwingConstants.CENTER);
+		toggleFileExplorerPanel.setSelected(true);
+		toolBarMid.add(toggleFileExplorerPanel);
 		
 		JPanel consoleArea = new JPanel();
 		GridBagConstraints gbc_consoleArea = new GridBagConstraints();
