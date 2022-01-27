@@ -29,6 +29,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
+import java.awt.BorderLayout;
 
 public class SystemView {
 
@@ -146,21 +147,21 @@ public class SystemView {
 		
 		JScrollPane outputAreaMainScrollPane = new JScrollPane();
 		outputAreaMainScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		outputAreaMain.addTab("Main Tab", null, outputAreaMainScrollPane, null);
+		outputAreaMain.addTab("Sentences", null, outputAreaMainScrollPane, null);
 		
 		JTextArea outputAreaMainTextArea = new JTextArea();
 		outputAreaMainTextArea.setLineWrap(true);
 		outputAreaMainTextArea.setWrapStyleWord(true);
 		outputAreaMainScrollPane.setViewportView(outputAreaMainTextArea);
 		
-		JPanel panel_1 = new JPanel();
-		outputAreaMain.addTab("Tab 1", null, panel_1, null);
-		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[] {1};
-		gbl_panel_1.rowHeights = new int[]{0};
-		gbl_panel_1.columnWeights = new double[]{Double.MIN_VALUE};
-		gbl_panel_1.rowWeights = new double[]{Double.MIN_VALUE};
-		panel_1.setLayout(gbl_panel_1);
+		JScrollPane outputAreaTokens = new JScrollPane();
+		outputAreaTokens.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		outputAreaMain.addTab("Tokens", null, outputAreaTokens, null);
+		
+		JTextArea outputAreaTokensTextArea = new JTextArea();
+		outputAreaTokensTextArea.setLineWrap(true);
+		outputAreaTokensTextArea.setWrapStyleWord(true);
+		outputAreaTokens.setViewportView(outputAreaTokensTextArea);
 		
 		JPanel panel_2 = new JPanel();
 		outputAreaMain.addTab("Tab 2", null, panel_2, null);
@@ -281,17 +282,26 @@ public class SystemView {
 		JMenu optionProcess = new JMenu("Process");
 		menuBar.add(optionProcess);
 		
-		JMenuItem optionTokenize = new JMenuItem("Tokenize");
-		optionTokenize.addActionListener(new ActionListener() {
+		JMenuItem optionTokenizeText = new JMenuItem("Tokenize Text");
+		optionTokenizeText.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			
-				//outputAreaMainTextArea.append(inputAreaMainTextArea1.getText());
-				System.out.println("Tokenize...");
-				//	
+				try {
+					Model.tokenizeText(Model.fileText.toString(), Model.modelTest);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				for(int i = 0; i < Model.tokenizerOutput.length; i++) {
+					
+					outputAreaTokensTextArea.append("[" + i + "]" + Model.tokenizerOutput[i] + " ");
+					
+				}
 				
 			}
 		});
-		optionProcess.add(optionTokenize);
+		optionProcess.add(optionTokenizeText);
 		
 		//Process -> Detect sentences
 		JMenuItem optionSentDetect = new JMenuItem("Detect Sentences");

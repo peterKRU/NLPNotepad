@@ -18,6 +18,9 @@ public class Model {
 	static String outputText;
 	//static String[] sentDetectOutput;
 	static ArrayList<String> sentDetectOutput = new ArrayList<String>();
+	public static String modelTest = "C:\\ApacheOpenNLP\\OpenNLP_Models\\opennlp-en-ud-ewt-tokens-1.0-1.9.3.bin";
+	public static String[] tokenizerOutput;
+	
 	
 	public static void openFileChoser() {
 		
@@ -96,4 +99,13 @@ public class Model {
 		
 	}
 	//
+	
+	public static void tokenizeText(String targetText, String model) throws IOException {
+		
+		WordTokenizer wordTokenizer = new WordTokenizer(modelTest);
+		wordTokenizer.tokenizeTargetText(targetText, model);
+		tokenizerOutput = wordTokenizer.getTokenizedText();
+		
+		
+	}
 }
