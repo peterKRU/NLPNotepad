@@ -31,6 +31,13 @@ import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
 import javax.swing.JTextField;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.MatteBorder;
+import java.awt.Color;
+import javax.swing.border.SoftBevelBorder;
 
 public class SystemView {
 
@@ -90,9 +97,9 @@ public class SystemView {
 		frame.setBounds(100, 100, 800, 540);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{500, 500, 0};
+		gridBagLayout.columnWidths = new int[]{0, 500, 500, 0};
 		gridBagLayout.rowHeights = new int[]{30, 205, 0, 110, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		
@@ -101,18 +108,59 @@ public class SystemView {
 		gbc_toolBarTop.anchor = GridBagConstraints.WEST;
 		gbc_toolBarTop.gridwidth = 2;
 		gbc_toolBarTop.insets = new Insets(0, 0, 5, 0);
-		gbc_toolBarTop.gridx = 0;
+		gbc_toolBarTop.gridx = 1;
 		gbc_toolBarTop.gridy = 0;
 		frame.getContentPane().add(toolBarTop, gbc_toolBarTop);
 		
 		JLabel labelIcons = new JLabel("Icons (WiP)");
 		toolBarTop.add(labelIcons);
 		
+		JPanel panel = new JPanel();
+		panel.setBorder(null);
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.gridheight = 7;
+		gbc_panel.insets = new Insets(0, 5, 0, 5);
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		gbc_panel.gridx = 0;
+		gbc_panel.gridy = 0;
+		frame.getContentPane().add(panel, gbc_panel);
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		panel.setVisible(true);
+		
+		JTree tree = new JTree();
+		tree.setModel(new DefaultTreeModel(
+			new DefaultMutableTreeNode("JTree") {
+				{
+					DefaultMutableTreeNode node_1;
+					node_1 = new DefaultMutableTreeNode("colors");
+						node_1.add(new DefaultMutableTreeNode("OLOLO"));
+						node_1.add(new DefaultMutableTreeNode("violet"));
+						node_1.add(new DefaultMutableTreeNode("red"));
+						node_1.add(new DefaultMutableTreeNode("yellow"));
+					add(node_1);
+					node_1 = new DefaultMutableTreeNode("sports");
+						node_1.add(new DefaultMutableTreeNode("basketball"));
+						node_1.add(new DefaultMutableTreeNode("soccer"));
+						node_1.add(new DefaultMutableTreeNode("football"));
+						node_1.add(new DefaultMutableTreeNode("hockey"));
+					add(node_1);
+					node_1 = new DefaultMutableTreeNode("food");
+						node_1.add(new DefaultMutableTreeNode("hot dogs"));
+						node_1.add(new DefaultMutableTreeNode("pizza"));
+						node_1.add(new DefaultMutableTreeNode("ravioli"));
+						node_1.add(new DefaultMutableTreeNode("bananas"));
+					add(node_1);
+				}
+			}
+		));
+		panel.add(tree, BorderLayout.CENTER);
+		
 		JTabbedPane inputAreaMain = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_inputAreaMain = new GridBagConstraints();
 		gbc_inputAreaMain.fill = GridBagConstraints.BOTH;
 		gbc_inputAreaMain.insets = new Insets(0, 5, 5, 5);
-		gbc_inputAreaMain.gridx = 0;
+		gbc_inputAreaMain.gridx = 1;
 		gbc_inputAreaMain.gridy = 1;
 		frame.getContentPane().add(inputAreaMain, gbc_inputAreaMain);
 		
@@ -143,7 +191,7 @@ public class SystemView {
 		GridBagConstraints gbc_outputAreaMain = new GridBagConstraints();
 		gbc_outputAreaMain.fill = GridBagConstraints.BOTH;
 		gbc_outputAreaMain.insets = new Insets(0, 0, 5, 0);
-		gbc_outputAreaMain.gridx = 1;
+		gbc_outputAreaMain.gridx = 2;
 		gbc_outputAreaMain.gridy = 1;
 		frame.getContentPane().add(outputAreaMain, gbc_outputAreaMain);
 		
@@ -178,7 +226,7 @@ public class SystemView {
 		gbc_toolBarMid.anchor = GridBagConstraints.WEST;
 		gbc_toolBarMid.gridwidth = 2;
 		gbc_toolBarMid.insets = new Insets(0, 0, 5, 0);
-		gbc_toolBarMid.gridx = 0;
+		gbc_toolBarMid.gridx = 1;
 		gbc_toolBarMid.gridy = 2;
 		frame.getContentPane().add(toolBarMid, gbc_toolBarMid);
 		
@@ -190,7 +238,7 @@ public class SystemView {
 		gbc_consoleArea.insets = new Insets(0, 5, 5, 0);
 		gbc_consoleArea.gridwidth = 2;
 		gbc_consoleArea.fill = GridBagConstraints.BOTH;
-		gbc_consoleArea.gridx = 0;
+		gbc_consoleArea.gridx = 1;
 		gbc_consoleArea.gridy = 3;
 		frame.getContentPane().add(consoleArea, gbc_consoleArea);
 		consoleArea.setLayout(new BoxLayout(consoleArea, BoxLayout.X_AXIS));
@@ -213,8 +261,8 @@ public class SystemView {
 		JLabel labelConsole = new JLabel("Console");
 		GridBagConstraints gbc_labelConsole = new GridBagConstraints();
 		gbc_labelConsole.anchor = GridBagConstraints.WEST;
-		gbc_labelConsole.insets = new Insets(0, 5, 5, 0);
-		gbc_labelConsole.gridx = 0;
+		gbc_labelConsole.insets = new Insets(0, 5, 5, 5);
+		gbc_labelConsole.gridx = 1;
 		gbc_labelConsole.gridy = 4;
 		frame.getContentPane().add(labelConsole, gbc_labelConsole);
 		
@@ -224,7 +272,7 @@ public class SystemView {
 		gbc_consoleField.gridwidth = 2;
 		gbc_consoleField.insets = new Insets(0, 5, 5, 0);
 		gbc_consoleField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_consoleField.gridx = 0;
+		gbc_consoleField.gridx = 1;
 		gbc_consoleField.gridy = 5;
 		frame.getContentPane().add(consoleField, gbc_consoleField);
 		consoleField.setColumns(10);
@@ -233,7 +281,7 @@ public class SystemView {
 		GridBagConstraints gbc_toolBarBottom = new GridBagConstraints();
 		gbc_toolBarBottom.anchor = GridBagConstraints.WEST;
 		gbc_toolBarBottom.gridwidth = 2;
-		gbc_toolBarBottom.gridx = 0;
+		gbc_toolBarBottom.gridx = 1;
 		gbc_toolBarBottom.gridy = 6;
 		frame.getContentPane().add(toolBarBottom, gbc_toolBarBottom);
 		
