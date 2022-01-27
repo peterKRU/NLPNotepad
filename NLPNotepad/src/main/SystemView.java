@@ -434,8 +434,40 @@ public class SystemView {
 		JMenu optionTools = new JMenu("Tools");
 		menuBar.add(optionTools);
 		
-		JMenu optionSearch = new JMenu("Search");
-		menuBar.add(optionSearch);
+		JMenu optionFind = new JMenu("Find");
+		menuBar.add(optionFind);
+		
+		JMenuItem regularSearch = new JMenuItem("Regular Search");
+		optionFind.add(regularSearch);
+		
+		JMenuItem findRegExPattern = new JMenuItem("Find RegExPattern");
+		findRegExPattern.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				RegexFinder regexFinder = new RegexFinder();
+				
+				if(consoleField.getText().length() == 0) {
+					logMainArea.append("No regular expression provided.");
+				}
+				
+				else {
+					regexFinder.findPattern(consoleField.getText(), inputAreaMainTextArea1.getText());	
+				}
+				
+				if(regexFinder.getResultsFound().isEmpty()) {
+					logMainArea.append("No patterns found.");
+				}
+				else {
+					for(int i = 0; i < regexFinder.getResultsFound().size(); i++) {
+						logMainArea.append(regexFinder.getResultsFound().get(i));
+					}
+				
+				}
+				
+				
+			}
+		});
+		optionFind.add(findRegExPattern);
 		
 		JMenu optionSettings = new JMenu("Settings");
 		menuBar.add(optionSettings);
