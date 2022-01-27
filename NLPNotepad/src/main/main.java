@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.EventQueue;
+import java.io.IOException;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -24,34 +25,7 @@ public class main {
 		} catch (IllegalAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-		//Initialize AppView
-		
-		/*
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AppView window = new AppView();
-					window.getMainFrame().setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		*/
-		
-		
-		System.out.println("View running...");
-		
-		ModelController modelController = new ModelController();
-		System.out.println("Model running...");
-		
-		AppView appView = new AppView();
-		appView.getMainFrame().setVisible(true);
-		
-		SystemController systemControler = new SystemController(appView, modelController);
-		System.out.println("Controller running...");
+		}			
 		
 	}
 
