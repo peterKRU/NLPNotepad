@@ -30,10 +30,12 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
+import javax.swing.JTextField;
 
 public class SystemView {
 
 	private JFrame frame;
+	private JTextField consoleField;
 		
 	
 	/**
@@ -89,9 +91,9 @@ public class SystemView {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{500, 500, 0};
-		gridBagLayout.rowHeights = new int[]{30, 205, 0, 110, 0, 0};
+		gridBagLayout.rowHeights = new int[]{30, 205, 0, 110, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		
 		JToolBar toolBarTop = new JToolBar();
@@ -140,7 +142,7 @@ public class SystemView {
 		JTabbedPane outputAreaMain = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_outputAreaMain = new GridBagConstraints();
 		gbc_outputAreaMain.fill = GridBagConstraints.BOTH;
-		gbc_outputAreaMain.insets = new Insets(0, 0, 5, 5);
+		gbc_outputAreaMain.insets = new Insets(0, 0, 5, 0);
 		gbc_outputAreaMain.gridx = 1;
 		gbc_outputAreaMain.gridy = 1;
 		frame.getContentPane().add(outputAreaMain, gbc_outputAreaMain);
@@ -150,6 +152,7 @@ public class SystemView {
 		outputAreaMain.addTab("Sentences", null, outputAreaMainScrollPane, null);
 		
 		JTextArea outputAreaMainTextArea = new JTextArea();
+		outputAreaMainTextArea.setEditable(false);
 		outputAreaMainTextArea.setLineWrap(true);
 		outputAreaMainTextArea.setWrapStyleWord(true);
 		outputAreaMainScrollPane.setViewportView(outputAreaMainTextArea);
@@ -159,6 +162,7 @@ public class SystemView {
 		outputAreaMain.addTab("Tokens", null, outputAreaTokens, null);
 		
 		JTextArea outputAreaTokensTextArea = new JTextArea();
+		outputAreaTokensTextArea.setEditable(false);
 		outputAreaTokensTextArea.setLineWrap(true);
 		outputAreaTokensTextArea.setWrapStyleWord(true);
 		outputAreaTokens.setViewportView(outputAreaTokensTextArea);
@@ -178,12 +182,12 @@ public class SystemView {
 		gbc_toolBarMid.gridy = 2;
 		frame.getContentPane().add(toolBarMid, gbc_toolBarMid);
 		
-		JLabel labelConsole = new JLabel("Console");
-		toolBarMid.add(labelConsole);
+		JLabel labelLog = new JLabel("Log");
+		toolBarMid.add(labelLog);
 		
 		JPanel consoleArea = new JPanel();
 		GridBagConstraints gbc_consoleArea = new GridBagConstraints();
-		gbc_consoleArea.insets = new Insets(0, 5, 5, 5);
+		gbc_consoleArea.insets = new Insets(0, 5, 5, 0);
 		gbc_consoleArea.gridwidth = 2;
 		gbc_consoleArea.fill = GridBagConstraints.BOTH;
 		gbc_consoleArea.gridx = 0;
@@ -191,25 +195,46 @@ public class SystemView {
 		frame.getContentPane().add(consoleArea, gbc_consoleArea);
 		consoleArea.setLayout(new BoxLayout(consoleArea, BoxLayout.X_AXIS));
 		
-		JScrollPane inputAreaMainScrollPane1_1 = new JScrollPane();
-		inputAreaMainScrollPane1_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		inputAreaMainScrollPane1_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		consoleArea.add(inputAreaMainScrollPane1_1);
+		JScrollPane consoleAreaMainScrollPane1 = new JScrollPane();
+		consoleAreaMainScrollPane1.setAlignmentY(Component.TOP_ALIGNMENT);
+		consoleAreaMainScrollPane1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		consoleAreaMainScrollPane1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		consoleArea.add(consoleAreaMainScrollPane1);
 		
-		JTextArea consoleMainArea = new JTextArea();
-		inputAreaMainScrollPane1_1.setViewportView(consoleMainArea);
+		JTextArea logMainArea = new JTextArea();
+		logMainArea.setEditable(false);
+		logMainArea.setLineWrap(true);
+		consoleAreaMainScrollPane1.setViewportView(logMainArea);
 		//Fix later: Innit console in another class
 		Console cns = new Console();
-		consoleMainArea.append(Console.log("info", "version") + "\n");
-		consoleMainArea.append(Console.log("state", "run") + "\n");
+		logMainArea.append(Console.log("info", "version") + "\n");
+		logMainArea.append(Console.log("state", "run") + "\n");
+		
+		JLabel labelConsole = new JLabel("Console");
+		GridBagConstraints gbc_labelConsole = new GridBagConstraints();
+		gbc_labelConsole.anchor = GridBagConstraints.WEST;
+		gbc_labelConsole.insets = new Insets(0, 5, 5, 0);
+		gbc_labelConsole.gridx = 0;
+		gbc_labelConsole.gridy = 4;
+		frame.getContentPane().add(labelConsole, gbc_labelConsole);
+		
+		consoleField = new JTextField();
+		GridBagConstraints gbc_consoleField = new GridBagConstraints();
+		gbc_consoleField.ipady = 20;
+		gbc_consoleField.gridwidth = 2;
+		gbc_consoleField.insets = new Insets(0, 5, 5, 0);
+		gbc_consoleField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_consoleField.gridx = 0;
+		gbc_consoleField.gridy = 5;
+		frame.getContentPane().add(consoleField, gbc_consoleField);
+		consoleField.setColumns(10);
 		
 		JToolBar toolBarBottom = new JToolBar();
 		GridBagConstraints gbc_toolBarBottom = new GridBagConstraints();
 		gbc_toolBarBottom.anchor = GridBagConstraints.WEST;
 		gbc_toolBarBottom.gridwidth = 2;
-		gbc_toolBarBottom.insets = new Insets(0, 0, 0, 5);
 		gbc_toolBarBottom.gridx = 0;
-		gbc_toolBarBottom.gridy = 4;
+		gbc_toolBarBottom.gridy = 6;
 		frame.getContentPane().add(toolBarBottom, gbc_toolBarBottom);
 		
 		JLabel lblNewLabel_1 = new JLabel("App Version");
@@ -226,13 +251,13 @@ public class SystemView {
 		optionOpenTextFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				consoleMainArea.append(Console.log("state", "start") + "\n");
-				consoleMainArea.append(Console.log("process", "openFile") + "\n");
+				logMainArea.append(Console.log("state", "start") + "\n");
+				logMainArea.append(Console.log("process", "openFile") + "\n");
 				
 				Model.openFileChoser();
 				inputAreaMainTextArea1.append(Model.fileText.toString());
 				
-				consoleMainArea.append(Console.log("state", "done") + "\n");
+				logMainArea.append(Console.log("state", "done") + "\n");
 			}
 		});
 		optionFile.add(optionOpenTextFile);
@@ -258,9 +283,9 @@ public class SystemView {
 		optionRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			
-				consoleMainArea.setText("");
-				consoleMainArea.append(Console.log("info", "version") + "\n");
-				consoleMainArea.append(Console.log("state", "run") + "\n");
+				logMainArea.setText("");
+				logMainArea.append(Console.log("info", "version") + "\n");
+				logMainArea.append(Console.log("state", "run") + "\n");
 			}
 		});
 		optionFile.add(optionRefresh);
@@ -282,6 +307,7 @@ public class SystemView {
 		JMenu optionProcess = new JMenu("Process");
 		menuBar.add(optionProcess);
 		
+		//Process -> Tokenize Text
 		JMenuItem optionTokenizeText = new JMenuItem("Tokenize Text");
 		optionTokenizeText.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -294,14 +320,14 @@ public class SystemView {
 				}
 				
 				for(int i = 0; i < Model.tokenizerOutput.length; i++) {
-					
-					outputAreaTokensTextArea.append("[" + i + "]" + Model.tokenizerOutput[i] + " ");
-					
+					outputAreaTokensTextArea.append("[" + i + "]" + Model.tokenizerOutput[i] + " ");	
 				}
+				outputAreaMain.setSelectedIndex(1);
 				
 			}
 		});
 		optionProcess.add(optionTokenizeText);
+		//
 		
 		//Process -> Detect sentences
 		JMenuItem optionSentDetect = new JMenuItem("Detect Sentences");
@@ -320,11 +346,10 @@ public class SystemView {
 				
 				
 				for(int i = 0; i < Model.sentDetectOutput.size(); i++) {
-					
 					outputAreaMainTextArea.append(Model.sentDetectOutput.get(i) + "\n");
-					
 				}
-
+				
+				outputAreaMain.setSelectedIndex(0);
 				
 			}
 		});
