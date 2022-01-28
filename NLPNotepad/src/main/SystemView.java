@@ -24,6 +24,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.ScrollPaneConstants;
 import java.awt.Component;
+import java.awt.Dimension;
+
 import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -38,6 +40,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.Color;
 import javax.swing.border.SoftBevelBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JCheckBox;
 import javax.swing.SwingConstants;
@@ -192,6 +196,38 @@ public class SystemView {
 		inputAreaMainTextArea2.setLineWrap(true);
 		inputAreaMainTextArea2.setAlignmentX(0.0f);
 		inputAreaMainScrollPane2.setViewportView(inputAreaMainTextArea2);
+		
+		//Testing line numbers:
+		DynamicLineNumberingTextArea dynamicLineNumberingTextArea = new DynamicLineNumberingTextArea(inputAreaMainTextArea2);
+		inputAreaMainScrollPane2.setRowHeaderView(dynamicLineNumberingTextArea);
+		
+		//Test row header resizing 
+		inputAreaMainScrollPane2.getRowHeader().setPreferredSize(new Dimension(30, 0));
+		
+		//Add document listener to text area
+		inputAreaMainTextArea2.getDocument().addDocumentListener(new DocumentListener(){
+		    @Override
+		    public void insertUpdate(DocumentEvent documentEvent)
+		    {
+		    	dynamicLineNumberingTextArea.updateLineNumbers();
+		    }
+		    
+		    @Override
+		    public void removeUpdate(DocumentEvent documentEvent)
+		    {
+		    	dynamicLineNumberingTextArea.updateLineNumbers();
+		    }
+		    
+		    @Override
+		    public void changedUpdate(DocumentEvent documentEvent)
+		    {
+		    	dynamicLineNumberingTextArea.updateLineNumbers();
+		    }
+		    
+		    
+		});
+		
+		//
 		
 		JTabbedPane outputAreaMain = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_outputAreaMain = new GridBagConstraints();
